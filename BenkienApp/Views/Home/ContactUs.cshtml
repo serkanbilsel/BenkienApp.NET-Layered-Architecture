@@ -1,0 +1,69 @@
+﻿@model Contact
+
+@{
+    ViewData["Title"] = "İletişim";
+
+    // Kullanıcı girişi yapılmışsa, bilgileri al
+    var isAuthenticated = Context.Session.GetInt32("userId") != null;
+    var userName = isAuthenticated ? Context.Session.GetString("userName") : "";
+    var userSurname = isAuthenticated ? Context.Session.GetString("userSurname") : "";
+    var userEmail = isAuthenticated ? Context.Session.GetString("Email") : "";
+}
+
+<h1>İletişim</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Bize Ulaşın</h4>
+        <hr />
+        <form asp-action="ContactUs" method="post" onsubmit="return validateForm()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" value="@userName" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" value="@userSurname" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" value="@userEmail" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" type="tel" pattern="[0-9]{10,11}" title="Geçerli bir telefon numarası giriniz (10-11 basamak)." />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Message" class="control-label"></label>
+                <textarea asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+                <span class="text-danger" id="emptyMessageWarning" style="display:none;">Lütfen gerekli alanları doldurun.</span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Gönder</button>
+            </div>
+            <div id="successMessage" class="text-success" style="display:none;">Mesajınız başarıyla gönderilmiştir. Teşekkür ederiz!</div>
+        </form>
+    </div>
+    <!-- ... Diğer içerikler ... -->
+</div>
+
+<script>
+    function validateForm() {
+        var message = document.getElementById("Message").value;
+        if (message.trim() === "") {
+            document.getElementById("emptyMessageWarning").style.display = "block";
+            return false;
+        } else {
+            document.getElementById("emptyMessageWarning").style.display = "none";
+            document.getElementById("successMessage").style.display = "block";
+            return true;
+        }
+    }
+</script>

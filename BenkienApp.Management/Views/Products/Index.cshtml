@@ -1,0 +1,159 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<p>
+    <a class="btn btn-outline-success mt-2 ms-1 mb-2" asp-action="Create">YENİ ÜRÜN EKLE</a>
+</p>
+<div class="container-fluid">
+    <h1 class="mt-4">Ürünler Listesi</h1>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Benkien Ürün Yönetimi
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductImages)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsAvailable)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsActive)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IsHome)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Brand)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Category)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdatedAt)
+                        </th>
+
+                        <th>Ürün Kontrol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.Raw(item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProductCode)
+                            </td>
+                            <td>
+
+
+                                <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @if (item.ProductImages != null && item.ProductImages.Any())
+                                        {
+                                            for (int i = 0; i < item.ProductImages.Count; i++)
+                                            {
+                                                var image = item.ProductImages[i];
+                                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                    <div style="width: 100px; height: 50px; overflow: hidden;">
+                                                        <img src="@image.ImageUrl" alt="@image.ImageName" class="d-block img-fluid" />
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel-item active">
+                                                <p class="text-center">Ürünün Fotoğrafı Yok!</p>
+                                            </div>
+                                        }
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#productImageCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#productImageCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAvailable)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsActive)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsHome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Brand.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                            </td>
+
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                                <a asp-action="Details" asp-route-id="@item.Id">Detay</a> |
+                                <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @section Scripts {
+                @{
+                    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+                }
+            }

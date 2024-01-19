@@ -1,0 +1,95 @@
+﻿@model IEnumerable<User>
+
+@{
+    ViewData["Title"] = "Üyeler Yönetim Paneli";
+}
+
+
+<div class="container-fluid">
+    <h1 class="mt-4">Üyeler Yönetim Paneli</h1>
+    
+
+    <div class="card mb-4">
+        <div class="card-body text-center bg-dark text-bg-dark">
+            <p class="fw-bold text-bg-dark"><i>BENKIEN ÜYE VE ROL LİSTESİ</i></p>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Kullanıcı Data Tablosu
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Role</th>
+                        <th>İsim</th>
+                        <th>Soyisim</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Email</th>
+                        
+                        <th>Adres</th>
+                        <th>Telefon</th>
+                        <th>Üyelik Tarihi</th>
+                        <th>Kullanıcı Resmi</th>
+                      
+                        <th>Hareketler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.Role?.RoleName</td>
+                            <td>@user.Name</td>
+                            <td>@user.Surname</td>
+                            <td>@user.UserName</td>
+                            <td>@user.Email</td>
+                            
+                            <td>@user.AdressDetail</td>
+                            <td>@user.Phone</td>
+                            <td>@user.CreateDate</td>
+                            <td><img src="@user.Image" alt="" width="50" height="50" /></td>
+                           
+                            <td>
+                               @*  @if (user.RoleId == 2)
+                                {
+                                    <a class="btn btn-secondary" asp-action="Index" asp-controller="Doctors">Doctor List</a>
+                                }
+                                else if (user.RoleId == 3)
+                                {
+                                    <a class="btn btn-secondary" asp-action="Index" asp-controller="User">Patient List</a>
+                                }
+                                else
+                                { *@
+                                    <div class="d-flex">
+                                        <a class="btn btn-primary me-1" asp-action="Edit" asp-route-id="@user.Id"><i class="fas fa-edit"></i> Düzenle</a>
+                                        <form asp-action="Remove" asp-route-id="@user.Id" method="post" onsubmit="return confirmDelete(this);">
+                                            <button type="submit" class="btn btn-danger" id="deleteButton"><i class="fas fa-trash"></i> Sil</button>
+                                        </form>
+                                    </div>
+                                
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(formElement) {
+        var deleteButton = formElement.querySelector('button');
+
+        if (deleteButton.innerHTML === 'Sure?') {
+            return true;
+        } else {
+            deleteButton.innerHTML = 'Sure?';
+            return false;
+        }
+    }
+</script>

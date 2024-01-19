@@ -1,0 +1,148 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row justify-content-center">
+
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Product.Name" class="control-label"></label>
+                <input asp-for="Product.Name" class="form-control" />
+                <span asp-validation-for="Product.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Product.Description" class="control-label"></label>
+                <textarea asp-for="Product.Description" id="productDescription" class="form-control"></textarea>
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
+            </div>
+
+      
+
+
+
+
+            @*    <div class="form-group">
+            <label asp-for="ProductImages" class="control-label"></label>
+            <input asp-for="ProductImages" class="form-control" type="file" multiple />
+            <span asp-validation-for="ProductImages" class="text-danger"></span>
+            </div> *@
+
+            <!-- Diğer form alanları -->
+            <div class="form-group">
+                <label asp-for="ProductImages" class="control-label"></label>
+                <input asp-for="ProductImages" class="form-control" type="file" multiple />
+                <span asp-validation-for="ProductImages" class="text-danger"></span>
+            </div>
+
+
+            <!-- Diğer form alanları -->
+            @*
+            <div class="form-group">
+            <label asp-for="ProductImages" class="control-label"></label>
+            <input asp-for="ProductImages" class="form-control" type="file" multiple />
+            <span asp-validation-for="ProductImages" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group">
+                <label asp-for="Product.Price" class="control-label"></label>
+                <input asp-for="Product.Price" class="form-control" />
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.ProductCode" class="control-label"></label>
+                <input asp-for="Product.ProductCode" class="form-control" />
+                <span asp-validation-for="Product.ProductCode" class="text-danger"></span>
+            </div>
+
+
+
+
+
+
+            <label for="CategoryId" class="form-label">Kategori</label>
+            <select id="CategoryId" name="Product.CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                <option value="-1">Kategori Seç</option>
+            </select>
+
+            <label for="BrandId" class="form-label">Marka</label>
+            <select id="BrandId" name="Product.BrandId" class="form-select" asp-items="ViewBag.Brands">
+                <option value="-1">Marka Seç</option>
+            </select>
+
+
+
+            @*  <label for="CategoryId" class="form-label">Kategori</label>
+            <select id="CategoryId" name="Categories" class="form-select" asp-items="ViewBag.Categories">
+            <option value="-1">Kategori Seç</option>
+            </select>
+
+            <label for="BrandId" class="form-label">Marka</label>
+            <select id="BrandId" name="Brands" class="form-select" asp-items="ViewBag.Brands">
+            <option value="-1">Marka Seç</option>
+            </select> *@
+
+
+            <div class="form-group">
+                <label asp-for="Product.Stock" class="control-label"></label>
+                <input asp-for="Product.Stock" class="form-control" />
+                <span asp-validation-for="Product.Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Product.IsAvailable" /> @Html.DisplayNameFor(model => model.Product.IsAvailable)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Product.IsActive" /> @Html.DisplayNameFor(model => model.Product.IsActive)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Product.IsHome" /> @Html.DisplayNameFor(model => model.Product.IsHome)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CreatedAt" class="control-label"></label>
+                <input asp-for="Product.CreatedAt" class="form-control" />
+                <span asp-validation-for="Product.CreatedAt" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+
+        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+        <script>
+            tinymce.init({
+                selector: '#productDescription',
+                height: 300,
+                plugins: 'lists link',
+                toolbar: 'undo redo | bold italic | bullist numlist | link',
+            });
+        </script>
+            
+    }
+}

@@ -1,0 +1,123 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Hesap Yönetimi";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h1 class="text-center">Hesap Yönetimi</h1>
+                </div>
+                <div class="card-body">
+
+                    <!-- Kullanıcı Bilgilerini Gösteren Alan -->
+                    <div id="viewMode">
+                        <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="/Img/@Model.Image" alt="..."></div>
+                      
+                        <p><strong>Ad Soyad:</strong> @Model.Name @Model.Surname</p>
+                        <p><strong>Email:</strong> @Model.Email</p>
+                        <p><strong>Telefon:</strong> @Model.Phone</p>
+                        <p><strong>Kullanıcı Adı:</strong> @Model.UserName</p>
+                        <p><strong>Açık Adres:</strong> @Model.AdressDetail</p>
+                      
+                        <!-- Diğer bilgileri ekleyebilirsiniz -->
+                        <button onclick="editUserInfo()" class="btn btn-primary">Bilgileri Düzenle</button>
+                    </div>
+
+                    <!-- Kullanıcının Bilgilerini Düzenlemesi İçin Form -->
+                    <div id="editForm" style="display: none;">
+                        <form asp-action="UpdateUser" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label">Ad:</label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Surname" class="control-label">Soyad:</label>
+                                <input asp-for="Surname" class="form-control" />
+                                <span asp-validation-for="Surname" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Email" class="control-label">Email:</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Phone" class="control-label">Telefon:</label>
+                                <input asp-for="Phone" class="form-control" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="UserName" class="control-label">Kullanıcı Adı:</label>
+                                <input asp-for="UserName" class="form-control" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AdressDetail" class="control-label">Açık Adres:</label>
+                                <textarea asp-for="AdressDetail" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="AdressDetail" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label">Şifre:</label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label">Şifre Tekrar:</label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Image" class="control-label"></label>
+                                <input asp-for="Image" class="form-control" type="file" />
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                                @if (!string.IsNullOrEmpty(Model.Image))
+                                {
+                                    <img src="/Img/@Model.Image" alt="" height="50" />
+                                    <div class="form-group form-check">
+                                        <label class="form-check-label">
+                                            @Html.CheckBox("resmiSil") Resmi Sil
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <!-- Diğer bilgileri ekleyebilirsiniz -->
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Kaydet</button>
+                                <button type="button" onclick="cancelEdit()" class="btn btn-secondary">İptal</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editUserInfo() {
+        // Bilgileri gösteren alanı gizle
+        document.getElementById('viewMode').style.display = 'none';
+        // Düzenleme formunu göster
+        document.getElementById('editForm').style.display = 'block';
+    }
+
+    function cancelEdit() {
+        // Bilgileri gösteren alanı göster
+        document.getElementById('viewMode').style.display = 'block';
+        // Düzenleme formunu gizle
+        document.getElementById('editForm').style.display = 'none';
+    }
+</script>
